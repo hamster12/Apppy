@@ -6,6 +6,11 @@ Designed for Password encoding~
 Must be 32 characters or less, no spaces or symbols
 '''
 
+'Importing Path object and getting python directory'
+from pathlib import Path
+import os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
 'prime factorizations are unique so to retain hash uniqueness, they are used a lot'
 'Static base values of any given character in the string (% is a special character used as a divider)'
 characters = {
@@ -80,11 +85,11 @@ def simoncrypt(string):
         for item in output_value:
             output += item[2:]
         else:
-            'Alternating negative redistribution of digits and performing hard to reverse operation (large exponent 16)'
+            'Alternating negative redistribution of digits and performing hard to reverse operation (large exponent 256)'
             processed_output = output[::-2]
             processed_output += output[len(output)::-2]
             'return string into hexadecimal'
-            return hex(int("0x" + processed_output, 16) ** 16 + int("0x" + output, 16))
+            return hex(int("0x" + processed_output, 16) ** 256 + int("0x" + output, 16))
 
 '''
 Input, title and description
@@ -93,21 +98,43 @@ Enter a Password, and let the program do the encryption
 print("Simoncryption V2.0.0 (Simon Chen)")
 print("Password-Oriented One-way Cryptographic Hash Function")
 
-passcode = str(input("Enter Password: "))
+username = str(input("Username: "))
+username = username.lower()
+user_path = Path(dir_path + "/profiles/" + username + ".simon")
+
+'Seeing if user is creating a new profile'
+new_profile = False
+if not user_path.is_file():
+    new_profile = True
+    print("User Not Found, Creating new profile: " + username + "...")
+passcode = str(input("Password: "))
+
 'checking for % symbol to not interfere with symbol code and other errors'
 for char in passcode:
     if char == "%":
         error()
 if len(passcode) > 32:
-    print("String cannot be more than 32 characters!")
+    print("Password cannot be more than 32 characters!")
 elif len(passcode) <= 0:
-    print("Type in a string!")
+    print("Type in a password!")
 else:
     hashed = simoncrypt(passcode)
     'Prints out final hash for the user'
-    print("Completed Simoncrypt for string: " + passcode + "!")
-    print("Hash:")
-    print(hashed)
+    print("Completed simoncrypt hash for password: " + passcode + "!")
 
+    'If you are creating a new user, it creates the account and stores the hash'
+    print(user_path)
+    if new_profile:
+        f = open(user_path, "w+")
+        f.write(hashed)
+        print("Saved new user with password: " + passcode + "!")
+    else:
+        'Reads stored hash, then compares hashes to determine if you typed in the right password'
+        print("Comparing stored hash with hash of: " + passcode + "...")
+        f = open(user_path, "r")
+        if f.read() == hashed:
+            print("Password is correct!")
+        else:
+            print("Incorrect Password!")
 input("Press enter to exit")
 exit()
