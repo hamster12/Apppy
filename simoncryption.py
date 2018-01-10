@@ -1,6 +1,6 @@
 '''
 Simoncryption V.2.0.0
-Simon Chen 2018
+Simon Chen and Maira Ito 2018
 One-Way Cryptographic Hash Function
 Designed for Password encoding~
 Must be 32 characters or less, no spaces or symbols
@@ -95,7 +95,7 @@ def simoncrypt(string):
 Input, title and description
 Enter a Password, and let the program do the encryption
 '''
-print("Simoncryption V2.0.0 (Simon Chen)")
+print("Simoncryption V2.0.0 (Simon Chen and Maira Ito)")
 print("Password-Oriented One-way Cryptographic Hash Function")
 
 username = str(input("Username: "))
