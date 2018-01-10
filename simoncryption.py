@@ -133,13 +133,16 @@ else:
             f = open(user_path, "w+")
             f.write(hashed)
             print("Saved new user with password: " + passcode + "!")
+            f.close()
         else:
             'Reads stored hash, then compares hashes to determine if you typed in the right password'
             print("Comparing stored hash with hash of: " + passcode + "...")
             f = open(user_path, "r")
             if f.read() == hashed:
                 print("Password is correct!")
+                f.close()
             else:
                 print("Incorrect Password!")
+                f.close()
 input("Press enter to exit")
 exit()

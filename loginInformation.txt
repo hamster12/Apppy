@@ -1,0 +1,9 @@
+login information:
+
+username - password
+
+profiles:
+
+simon - isAwesome
+maira - isKAWAII
+test - password
